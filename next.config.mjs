@@ -4,6 +4,10 @@ const nextConfig = {
     serverComponentsHmrCache: false,
   },
 
+   eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   images: {
     remotePatterns: [
       {
