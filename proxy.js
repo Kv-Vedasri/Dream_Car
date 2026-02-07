@@ -13,9 +13,9 @@ const aj = arcjet({
   key: process.env.ARCJET_KEY,
   // characteristics: ["userId"], // Track based on Clerk userId
   rules: [
-    // Shield protection for content and security
+    // Shield protection for content and security (DRY_RUN logs only)
     shield({
-      mode: "LIVE",
+      mode: "DRY_RUN",
     }),
     detectBot({
       mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
