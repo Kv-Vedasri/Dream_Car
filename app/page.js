@@ -20,21 +20,38 @@ export default async function Home() {
   return (
     <div className="flex flex-col pt-20">
       {/* Hero Section with Gradient Title */}
-      <section className="relative py-16 md:py-28 dotted-background">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-8">
-            <h1 className="text-5xl md:text-8xl mb-4 gradient-title">
-              Find Your Dream Car With CARHUB
-            </h1>
-            <p className="text-xl text-gray-500 mb-8 max-w-2xl mx-auto">
-              Advanced AI Car Search and test drive from thousands of vehicles.
-            </p>
-          </div>
+     <section className="relative py-16 md:py-28 overflow-hidden">
+  {/* Background Video */}
+  <video
+    className="absolute inset-0 w-full h-full object-cover"
+    autoPlay
+    loop
+    muted
+    playsInline
+  >
+    <source src="/carbackground.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 
-          {/* Search Component (Client) */}
-          <HomeSearch />
-        </div>
-      </section>
+  {/* Dark overlay for readability */}
+  <div className="absolute inset-0 bg-black/50"></div>
+
+  {/* Content */}
+  <div className="relative z-10 max-w-4xl mx-auto text-center">
+    <div className="mb-8">
+      <h1 className="text-5xl md:text-8xl mb-4 gradient-title text-white">
+        Find Your Dream Car With CARHUB
+      </h1>
+      <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        Advanced AI Car Search and test drive from thousands of vehicles.
+      </p>
+    </div>
+
+    {/* Search Component */}
+    <HomeSearch />
+  </div>
+</section>
+
 
       {/* Featured Cars */}
       <section className="py-12">
