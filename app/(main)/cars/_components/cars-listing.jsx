@@ -95,12 +95,13 @@ export function CarListings() {
 
   // Handle error
   if (error || (result && !result.success)) {
+    const errorMessage = result?.error || error?.message || "Failed to load cars. Please try again later.";
     return (
       <Alert variant="destructive">
         <Info className="h-4 w-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>
-          Failed to load cars. Please try again later.
+          {errorMessage}
         </AlertDescription>
       </Alert>
     );

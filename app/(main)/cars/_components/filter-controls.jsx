@@ -5,39 +5,49 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 
 export const CarFilterControls = ({
-  filters,
+  filters = {},
   currentFilters,
   onFilterChange,
   onClearFilter,
 }) => {
+  // Provide default filter values
+  const defaultFilters = {
+    makes: [],
+    bodyTypes: [],
+    fuelTypes: [],
+    transmissions: [],
+    priceRange: { min: 0, max: 100000 },
+    ...filters,
+  };
+
   const { make, bodyType, fuelType, transmission, priceRange } = currentFilters;
 
   const filterSections = [
     {
       id: "make",
       title: "Make",
-      options: filters.makes.map((make) => ({ value: make, label: make })),
+      options: defaultFilters.makes.map((make) => ({ value: make, label: make })),
       currentValue: make,
       onChange: (value) => onFilterChange("make", value),
     },
     {
       id: "bodyType",
       title: "Body Type",
-      options: filters.bodyTypes.map((type) => ({ value: type, label: type })),
+      options: defaultFilters.bodyTypes.map((type) => ({ value: type, label: type })),
       currentValue: bodyType,
       onChange: (value) => onFilterChange("bodyType", value),
     },
     {
       id: "fuelType",
       title: "Fuel Type",
-      options: filters.fuelTypes.map((type) => ({ value: type, label: type })),
+      options: defaultFilters.fuelTypes.map((type) => ({ value: type, label: type })),
       currentValue: fuelType,
       onChange: (value) => onFilterChange("fuelType", value),
     },
     {
       id: "transmission",
       title: "Transmission",
-      options: filters.transmissions.map((type) => ({
+      options: defaultFilters.transmissions.map((type) => ({
         value: type,
         label: type,
       })),
@@ -53,8 +63,8 @@ export const CarFilterControls = ({
         <h3 className="font-medium">Price Range</h3>
         <div className="px-2">
           <Slider
-            min={filters.priceRange.min}
-            max={filters.priceRange.max}
+            min={defaultFilters.priceRange.min}
+            max={defaultFilters.priceRange.max}
             step={100}
             value={priceRange}
             onValueChange={(value) => onFilterChange("priceRange", value)}

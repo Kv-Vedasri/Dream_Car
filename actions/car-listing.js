@@ -67,7 +67,11 @@ export async function getCarFilters() {
       },
     };
   } catch (error) {
-    throw new Error("Error fetching car filters:" + error.message);
+    console.error("Error fetching car filters:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to fetch filters"
+    };
   }
 }
 
@@ -181,7 +185,13 @@ export async function getCars({
       },
     };
   } catch (error) {
-    throw new Error("Error fetching cars:" + error.message);
+    console.error("Error fetching cars:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to fetch cars",
+      data: [],
+      pagination: { total: 0, page: 1, limit, pages: 0 }
+    };
   }
 }
 
@@ -255,7 +265,11 @@ export async function toggleSavedCar(carId) {
       message: "Car added to favorites",
     };
   } catch (error) {
-    throw new Error("Error toggling saved car:" + error.message);
+    console.error("Error toggling saved car:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to toggle saved car"
+    };
   }
 }
 
@@ -320,7 +334,9 @@ export async function getCarById(carId) {
         userTestDrive = {
           id: existingTestDrive.id,
           status: existingTestDrive.status,
-          bookingDate: existingTestDrive.bookingDate.toISOString(),
+          bookingDate: existingTestDrive.bookingDate
+            ? existingTestDrive.bookingDate.toISOString()
+            : null,
         };
       }
     }
@@ -341,12 +357,16 @@ export async function getCarById(carId) {
           dealership: dealership
             ? {
                 ...dealership,
-                createdAt: dealership.createdAt.toISOString(),
-                updatedAt: dealership.updatedAt.toISOString(),
-                workingHours: dealership.workingHours.map((hour) => ({
+                createdAt: dealership.createdAt
+                  ? dealership.createdAt.toISOString()
+                  : null,
+                updatedAt: dealership.updatedAt
+                  ? dealership.updatedAt.toISOString()
+                  : null,
+                workingHours: (dealership.workingHours || []).map((hour) => ({
                   ...hour,
-                  createdAt: hour.createdAt.toISOString(),
-                  updatedAt: hour.updatedAt.toISOString(),
+                  createdAt: hour.createdAt ? hour.createdAt.toISOString() : null,
+                  updatedAt: hour.updatedAt ? hour.updatedAt.toISOString() : null,
                 })),
               }
             : null,
@@ -354,7 +374,11 @@ export async function getCarById(carId) {
       },
     };
   } catch (error) {
-    throw new Error("Error fetching car details:" + error.message);
+    console.error("Error fetching car details:", error);
+    return {
+      success: false,
+      error: error.message || "Failed to fetch car details"
+    };
   }
 }
 

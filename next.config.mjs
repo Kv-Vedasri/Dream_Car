@@ -2,9 +2,16 @@
 const nextConfig = {
   experimental: {
     serverComponentsHmrCache: false,
+
+    serverActions: {
+      allowedOrigins: [
+        "localhost:3000",
+        "*.app.github.dev",
+      ],
+    },
   },
 
-   eslint: {
+  eslint: {
     ignoreDuringBuilds: true,
   },
 

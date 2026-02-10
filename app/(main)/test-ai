@@ -1,0 +1,40 @@
+"use client";
+
+import { useState } from "react";
+import { processCarImageWithAI } from "@/actions/cars";
+
+export default function TestAI() {
+  const [file, setFile] = useState<File | null>(null);
+  const [result, setResult] = useState<any>(null);
+
+  async function handleClick() {
+    if (!file) {
+      alert("Select an image first");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await processCarImageWithAI(formData);
+    setResult(res);
+  }
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>Test Car Image AI</h2>
+
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setFile(e.target.files?.[0] || null)}
+      />
+
+      <br /><br />
+
+      <button onClick={handleClick}>Send to AI</button>
+
+      <pre>{JSON.stringify(result, null, 2)}</pre>
+    </div>
+  );
+}
