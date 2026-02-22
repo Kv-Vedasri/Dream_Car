@@ -405,6 +405,7 @@ export const AddCarForm = () => {
                       {...register("price")}
                       placeholder="e.g. 25000"
                       className={errors.price ? "border-red-500" : ""}
+                      required
                     />
                     {errors.price && (
                       <p className="text-xs text-red-500">
@@ -421,6 +422,7 @@ export const AddCarForm = () => {
                       {...register("mileage")}
                       placeholder="e.g. 15000"
                       className={errors.mileage ? "border-red-500" : ""}
+                      required
                     />
                     {errors.mileage && (
                       <p className="text-xs text-red-500">

@@ -8,6 +8,7 @@ const nextConfig = {
         "localhost:3000",
         "*.app.github.dev",
       ],
+      bodySizeLimit: '10mb',
     },
   },
 

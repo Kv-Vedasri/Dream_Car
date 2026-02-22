@@ -142,6 +142,11 @@ export async function addCar({ carData, images }) {
 
     if (!user) throw new Error("User not found");
 
+    // Validate required fields
+    if (!carData.mileage && carData.mileage !== 0) {
+      throw new Error("Mileage is required");
+    }
+
     // Create a unique folder name for this car's images
     const carId = uuidv4();
     const folderPath = `cars/${carId}`;
