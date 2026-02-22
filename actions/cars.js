@@ -51,11 +51,11 @@ export async function processCarImageWithAI(file) {
       3. Year (approximately)
       4. Color
       5. Body type (SUV, Sedan, Hatchback, etc.)
-      6. Mileage
+      6. Mileage (your best guess in miles, based on the car's condition and appearance)
       7. Fuel type (your best guess)
       8. Transmission type (your best guess)
-      9. Price (your best guess)
-      9. Short Description as to be added to a car listing
+      9. Price (your best estimate in dollars, or a range if uncertain, e.g., 50000 or 45000-55000)
+      10. Short Description as to be added to a car listing
 
       Format your response as a clean JSON object with these fields:
       {

@@ -47,6 +47,19 @@ const bodyTypes = [
 ];
 const carStatuses = ["AVAILABLE", "UNAVAILABLE", "SOLD"];
 
+// Helper function to parse price, handling ranges
+const parsePrice = (priceStr) => {
+  if (!priceStr) return NaN;
+  const cleaned = priceStr.replace(/,/g, "").trim();
+  if (cleaned.includes("-")) {
+    const [min, max] = cleaned.split("-").map(s => parseFloat(s.trim()));
+    if (!isNaN(min) && !isNaN(max)) {
+      return (min + max) / 2; // Average
+    }
+  }
+  return parseFloat(cleaned);
+};
+
 // Define form schema with Zod
 const carFormSchema = z.object({
   make: z.string().min(1, "Make is required"),
@@ -55,8 +68,14 @@ const carFormSchema = z.object({
     const year = parseInt(val);
     return !isNaN(year) && year >= 1900 && year <= new Date().getFullYear() + 1;
   }, "Valid year required"),
-  price: z.string().min(1, "Price is required"),
-  mileage: z.string().min(1, "Mileage is required"),
+  price: z.string().refine((val) => {
+    const num = parsePrice(val);
+    return val.trim() !== "" && !isNaN(num) && num > 0;
+  }, "Price must be a valid number or range greater than 0"),
+  mileage: z.string().refine((val) => {
+    const num = parseInt(val.replace(/,/g, ""));
+    return val.trim() !== "" && !isNaN(num) && num >= 0;
+  }, "Mileage must be a valid number greater than or equal to 0"),
   color: z.string().min(1, "Color is required"),
   fuelType: z.string().min(1, "Fuel type is required"),
   transmission: z.string().min(1, "Transmission is required"),
@@ -144,8 +163,10 @@ export const AddCarForm = () => {
       setValue("color", carDetails.color);
       setValue("bodyType", carDetails.bodyType);
       setValue("fuelType", carDetails.fuelType);
-      setValue("price", carDetails.price);
-      setValue("mileage", carDetails.mileage);
+      const parsedPrice = parsePrice(carDetails.price);
+      setValue("price", isNaN(parsedPrice) ? "" : parsedPrice.toString());
+      const parsedMileage = parseInt(carDetails.mileage.replace(/,/g, ""));
+      setValue("mileage", isNaN(parsedMileage) ? "" : parsedMileage.toString());
       setValue("transmission", carDetails.transmission);
       setValue("description", carDetails.description);
 
@@ -273,12 +294,27 @@ export const AddCarForm = () => {
       return;
     }
 
+    // Validate price
+    const parsedPrice = parsePrice(data.price || "");
+    if (isNaN(parsedPrice) || parsedPrice <= 0) {
+      toast.error("Please provide a valid price");
+      return;
+    }
+
+    // Validate mileage
+    const mileageStr = data.mileage || "";
+    const parsedMileage = parseInt(mileageStr.replace(/,/g, ""));
+    if (isNaN(parsedMileage) || parsedMileage < 0) {
+      toast.error("Please provide a valid mileage");
+      return;
+    }
+
     // Prepare data for server action
     const carData = {
       ...data,
       year: parseInt(data.year),
-      price: parseFloat(data.price),
-      mileage: parseInt(data.mileage),
+      price: parsedPrice,
+      mileage: parsedMileage,
       seats: data.seats ? parseInt(data.seats) : null,
     };
 
