@@ -1,7 +1,6 @@
 "use server";
-export const runtime = "nodejs";
 
-
+// export const runtime = "nodejs";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -19,9 +18,7 @@ async function fileToBase64(file) {
 }
 
 // Gemini AI integration for car image processing
-export async function processCarImageWithAI(formData) {
-  const file = formData.get("image");
-
+export async function processCarImageWithAI(file) {
   if (!file) {
     throw new Error("No image provided");
   } 

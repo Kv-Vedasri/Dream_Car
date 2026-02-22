@@ -159,26 +159,30 @@ export default async function Home() {
             </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {bodyTypes.map((type) => (
+     {bodyTypes.map((type) => (
               <Link
                 key={type.name}
                 href={`/cars?bodyType=${type.name}`}
-                className="relative group cursor-pointer"
+                className="group relative block h-64 overflow-hidden rounded-2xl"
               >
-                <div className="overflow-hidden rounded-lg flex justify-end h-28 mb-4 relative">
-                  <Image
-                    src={
-                      type.imageUrl || `/body/${type.name.toLowerCase()}.webp`
-                    }
-                    alt={type.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition duration-300"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-lg flex items-end">
-                  <h3 className="text-white text-xl font-bold pl-4 pb-2 ">
+                <Image
+                  src={type.imageUrl}
+                  alt={type.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+
+                {/* Dark Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+                {/* Text Content */}
+                <div className="absolute bottom-0 p-6 text-white">
+                  <h3 className="text-2xl font-bold mb-1 transition-transform group-hover:translate-x-2">
                     {type.name}
                   </h3>
+                  <p className="text-sm text-gray-300 transition-transform delay-75 group-hover:translate-x-2">
+                    {type.description}
+                  </p>
                 </div>
               </Link>
             ))}
