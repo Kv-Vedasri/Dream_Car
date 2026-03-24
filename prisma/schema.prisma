@@ -32,7 +32,7 @@ model Car {
   make              String
   model             String
   year              Int
-  price             String             // Price range as string, e.g., "50000-60000"
+  price            Decimal            // Price range as string, e.g., "50000-60000"
   mileage           Int
   color             String
   fuelType          String
